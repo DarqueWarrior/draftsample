@@ -15,7 +15,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=builder /app .
 
-ENV PORT 5060
-EXPOSE 5060
+ENV PORT 80
+EXPOSE 80
 
 ENTRYPOINT dotnet $(cat /app/__assemblyname).dll
