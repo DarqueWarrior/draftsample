@@ -15,7 +15,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=builder /app .
 
-ENV PORT 80
-EXPOSE 80
+ENV PORT 5020
+EXPOSE 5020
 
-ENTRYPOINT dotnet $(cat /app/__assemblyname).dll
+ENTRYPOINT dotnet $(cat /app/__assemblyname).dll --urls "http://localhost:5020"

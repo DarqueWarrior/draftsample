@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-containerPort: 80
+containerPort: 5020
 
 imageKey:
   repository: draftsample
