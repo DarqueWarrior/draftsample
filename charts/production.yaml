@@ -1,8 +1,8 @@
 imageKey:
-  repository: "draftsample"
-  pullPolicy: IfNotPresent
-  tag: "latest"
+    repository: mydraftacr.azurecr.io/draftsample
+    pullPolicy: IfNotPresent
+    tag: latest
 service:
-  annotations: {}
-  type: LoadBalancer
-  port: 80
+    annotations: {}
+    type: LoadBalancer
+    port: "80"
