@@ -18,4 +18,4 @@ COPY --from=builder /app .
 ENV PORT 5020
 EXPOSE 5020
 
-ENTRYPOINT dotnet $(cat /app/__assemblyname).dll --urls "http://localhost:5020"
+ENTRYPOINT dotnet $(cat /app/__assemblyname).dll --urls "http://*:5020"
