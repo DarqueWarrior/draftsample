@@ -7,10 +7,10 @@ name: Build and deploy an app to AKS with Helm
 env:
     LOCATION: eastus
     CHART_PATH: ./charts
-    CLUSTER_NAME: myAKSCluster1
+    CLUSTER_NAME: ''
     CONTAINER_NAME: draftsample
+    AZURE_CONTAINER_REGISTRY: ''
     RESOURCE_GROUP: myResourceGroup1
-    AZURE_CONTAINER_REGISTRY: mydraftacr1
     IMAGE_PULL_SECRET_NAME: mydraftacrsecret
     CHART_OVERRIDE_PATH: ./charts/production.yaml
 jobs:
@@ -36,6 +36,12 @@ jobs:
                   --parameters location=${{ env.LOCATION }} `
                   --parameters rgName=${{ env.RESOURCE_GROUP }} `
                   --output json) | ConvertFrom-Json
+
+                $aksName = $deployment.properties.outputs.aksName.value
+                $acrName = $deployment.properties.outputs.acrName.value
+
+                echo "CLUSTER_NAME=$aksName" | Out-File -FilePath $env:GITHUB_ENV -Append
+                echo "AZURE_CONTAINER_REGISTRY=$acrName" | Out-File -FilePath $env:GITHUB_ENV -Append
     buildImage:
         permissions:
             contents: read
