@@ -132,6 +132,7 @@ jobs:
                 overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
                 overrides: |
                     replicas:2
+                    imageKey.repository:${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}
                 renderEngine: helm
             - name: Deploy application
               uses: Azure/k8s-deploy@v3.1
