@@ -29,11 +29,11 @@ jobs:
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             - name: Deploy infrastructure 
               run: |
-                $deployment = $(az deployment sub create --name ${{ env.RESOURCE_GROUP }} `
-                  --location ${{ env.LOCATION }} `
-                  --template-file ./main.bicep `
-                  --parameters location=${{ env.LOCATION }} `
-                  --parameters rgName=${{ env.RESOURCE_GROUP }} `
+                $deployment = $(az deployment sub create --name ${{ env.RESOURCE_GROUP }} \
+                  --location ${{ env.LOCATION }} \
+                  --template-file ./main.bicep \
+                  --parameters location=${{ env.LOCATION }} \
+                  --parameters rgName=${{ env.RESOURCE_GROUP }} \
                   --output json) | ConvertFrom-Json
     buildImage:
         permissions:
