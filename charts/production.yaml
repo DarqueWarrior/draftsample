@@ -1,5 +1,4 @@
 imageKey:
-    repository: mydraftacr.azurecr.io/draftsample
     pullPolicy: IfNotPresent
     tag: latest
 service:
