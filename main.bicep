@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 param location string = 'eastus'
-param k8sversion string = '1.21.2'
+param k8sversion string = '1.23.5'
 param rgName string = 'draft_demo'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
