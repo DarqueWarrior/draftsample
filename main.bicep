@@ -13,8 +13,10 @@ module aks_aci './aks_aci.bicep' = {
   name: 'aks_aci'
   scope: resourceGroup(rg.name)
   params: {
+    location: location
     k8sversion: k8sversion
   }
 }
 
 output aksName string = aks_aci.outputs.clusterName
+output acrName string = aks_aci.outputs.registryName
