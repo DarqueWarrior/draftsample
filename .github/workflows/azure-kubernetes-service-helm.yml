@@ -42,9 +42,9 @@ jobs:
 
                 Write-Host "::set-output name=acrName::$acrName"
                 Write-Host "::set-output name=aksName::$aksName"
-        # outputs:
-        #   acrName: ${{ steps.deploy.outputs.acrName }}
-        #   aksName: ${{ steps.deploy.outputs.aksName }}
+        outputs:
+          acrName: ${{ steps.deploy.outputs.acrName }}
+          aksName: ${{ steps.deploy.outputs.aksName }}
           
     buildImage:
         permissions:
