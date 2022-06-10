@@ -1,5 +1,8 @@
 name: Build and deploy an app to AKS with Helm
 "on":
+    pull_request:
+      branches:
+        - main
     push:
         branches:
             - main
@@ -9,7 +12,7 @@ env:
     CHART_PATH: ./charts
     CONTAINER_NAME: draftsample
     AZURE_CONTAINER_REGISTRY: ''
-    RESOURCE_GROUP: draftSample-dev
+    RESOURCE_GROUP: draftSample
     IMAGE_PULL_SECRET_NAME: mydraftacrsecret
     CHART_OVERRIDE_PATH: ./charts/production.yaml
 jobs:
