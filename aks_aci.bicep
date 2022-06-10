@@ -74,6 +74,7 @@ resource acrPull 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = 
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', acrPullRoleID)
     principalId: aks.identity.principalId
+    principalType: 'ServicePrincipal'
   }
 }
 
