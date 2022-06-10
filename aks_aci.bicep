@@ -69,7 +69,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
 }
 
 resource acrPull 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: authName
+  name: guid(acr.id, authName, acrPullRoleID)
   scope: acr
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', acrPullRoleID)
