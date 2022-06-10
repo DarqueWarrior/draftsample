@@ -89,7 +89,11 @@ jobs:
               with:
                 cluster-name: ${{ needs.iac.outputs.aksName }}
                 resource-group: ${{ env.RESOURCE_GROUP }}
-            - name: Install Radius
+            - name: Install Radius in K8s
+              id: installcli
+              shell: pwsh
+              run: iwr -useb "https://get.radapp.dev/tools/rad/install.ps1" | iex
+            - name: Install Radius in K8s
               id: install
               shell: pwsh
               run: rad env install kubernetes
