@@ -3,6 +3,8 @@
 
 // You can declare parameters to pass in resources created by infra.bicep or infra.dev.bicep
 // param database_name string 
+param imageName string
+param imageTag string
 
 resource app 'radius.dev/Application@v1alpha3' = {
   name: 'draftsample'
@@ -13,7 +15,7 @@ resource app 'radius.dev/Application@v1alpha3' = {
     name: 'demo'
     properties: {
       container: {
-        image: 'acrxk2ymx64wmmh4.azurecr.io/draftsample:707b80ba3c8b9f7a31d40751d305eebdf56dfc29'
+        image: '${imageName}:${imageTag}'
         ports: {
           web: {
             containerPort: 5020
