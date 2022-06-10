@@ -66,7 +66,7 @@ jobs:
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             - name: Build and push image to ACR
               run: |
-                az acr build --image ${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ GITHUB_RUN_ID }} --registry ${{needs.iac.outputs.acrName}} -g ${{ env.RESOURCE_GROUP }} .
+                az acr build --image ${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}:${GITHUB_RUN_ID} --registry ${{needs.iac.outputs.acrName}} -g ${{ env.RESOURCE_GROUP }} .
     deploy:
         permissions:
             actions: read
@@ -96,7 +96,7 @@ jobs:
             - name: Deploy app
               id: deploy
               shell: pwsh
-              run: rad app deploy --parameters imageName=${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }} --parameters imageTag=${{ GITHUB_RUN_ID }}
+              run: rad app deploy --parameters imageName=${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }} --parameters imageTag=${GITHUB_RUN_ID}
 
             # - id: bake
             #   name: Bake deployment
