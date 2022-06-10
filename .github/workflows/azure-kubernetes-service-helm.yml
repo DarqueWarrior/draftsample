@@ -90,7 +90,7 @@ jobs:
                 cluster-name: ${{ needs.iac.outputs.aksName }}
                 resource-group: ${{ env.RESOURCE_GROUP }}
             - name: Install Radius
-              id: deploy
+              id: install
               shell: pwsh
               run: rad env install kubernetes
             - name: Deploy app
