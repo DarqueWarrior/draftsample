@@ -12,7 +12,7 @@ env:
     CHART_PATH: ./charts
     CONTAINER_NAME: draftsample
     AZURE_CONTAINER_REGISTRY: ''
-    RESOURCE_GROUP: draftSample
+    RESOURCE_GROUP: draftSample-dev
     IMAGE_PULL_SECRET_NAME: mydraftacrsecret
     CHART_OVERRIDE_PATH: ./charts/production.yaml
 jobs:
