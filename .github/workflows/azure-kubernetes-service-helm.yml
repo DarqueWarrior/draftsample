@@ -29,7 +29,7 @@ jobs:
                 client-id: ${{ secrets.AZURE_CLIENT_ID }}
                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-            - name: Deploy infrastructure 
+            - name: Deploy infrastructure
               id: deploy
               shell: pwsh
               run: |
@@ -48,7 +48,7 @@ jobs:
         outputs:
           acrName: ${{ steps.deploy.outputs.acrName }}
           aksName: ${{ steps.deploy.outputs.aksName }}
-          
+
     buildImage:
         permissions:
             contents: read
@@ -66,7 +66,7 @@ jobs:
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             - name: Build and push image to ACR
               run: |
-                az acr build --image ${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}:${GITHUB_RUN_ID} --registry ${{needs.iac.outputs.acrName}} -g ${{ env.RESOURCE_GROUP }} .
+                az acr build --image ${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}:${GITHUB_RUN_NUMBER} --registry ${{needs.iac.outputs.acrName}} -g ${{ env.RESOURCE_GROUP }} .
     deploy:
         permissions:
             actions: read
@@ -78,6 +78,9 @@ jobs:
             - buildImage
         steps:
             - uses: actions/checkout@v3
+            - name: Install Radius CLI
+              id: installcli
+              run: wget -q "https://get.radapp.dev/tools/rad/install.sh" -O - | /bin/bash
             - name: Azure login
               uses: azure/login@v1.4.3
               with:
@@ -89,17 +92,14 @@ jobs:
               with:
                 cluster-name: ${{ needs.iac.outputs.aksName }}
                 resource-group: ${{ env.RESOURCE_GROUP }}
-            - name: Install Radius in K8s
-              id: installcli
-              run: wget -q "https://get.radapp.dev/tools/rad/install.sh" -O - | /bin/bash
+            - name: Get K8s context using cli
+              run: az aks get-credentials --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ needs.iac.outputs.aksName }} 
             - name: Install Radius in K8s
               id: install
-              shell: pwsh
               run: rad env install kubernetes
             - name: Deploy app
               id: deploy
-              shell: pwsh
-              run: rad app deploy --parameters imageName=${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }} --parameters imageTag=${GITHUB_RUN_ID}
+              run: rad app deploy --parameters imageName=${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }} --parameters imageTag=${GITHUB_RUN_NUMBER}
 
             # - id: bake
             #   name: Bake deployment
