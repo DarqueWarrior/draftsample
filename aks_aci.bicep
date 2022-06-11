@@ -73,7 +73,7 @@ resource acrPull 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = 
   scope: acr
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', acrPullRoleID)
-    principalId: aks.properties.addonProfiles.ingressApplicationGateway.identity.objectId
+    principalId: aks.properties.identityProfile.kubeletidentity.objectId
     principalType: 'ServicePrincipal'
   }
 }
