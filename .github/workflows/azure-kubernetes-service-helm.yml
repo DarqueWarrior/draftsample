@@ -87,36 +87,11 @@ jobs:
                 client-id: ${{ secrets.AZURE_CLIENT_ID }}
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-            - name: Get K8s context
-              uses: azure/aks-set-context@v2.0
-              with:
-                cluster-name: ${{ needs.iac.outputs.aksName }}
-                resource-group: ${{ env.RESOURCE_GROUP }}
             - name: Get K8s context using cli
-              run: az aks get-credentials --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ needs.iac.outputs.aksName }} 
+              run: az aks get-credentials --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ needs.iac.outputs.aksName }} -f /home/runner/.kube/config
             - name: Install Radius in K8s
               id: install
               run: rad env install kubernetes
             - name: Deploy app
               id: deploy
               run: rad app deploy --parameters imageName=${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }} --parameters imageTag=${GITHUB_RUN_NUMBER}
-
-            # - id: bake
-            #   name: Bake deployment
-            #   uses: azure/k8s-bake@v2.1
-            #   with:
-            #     helm-version: latest
-            #     helmChart: ${{ env.CHART_PATH }}
-            #     overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
-            #     overrides: |
-            #         replicas:2
-            #         imageKey.repository:${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}
-            #     renderEngine: helm
-            # - name: Deploy application
-            #   uses: Azure/k8s-deploy@v3.1
-            #   with:
-            #     action: deploy
-            #     imagepullsecrets: ${{ env.IMAGE_PULL_SECRET_NAME }}
-            #     images: |
-            #         ${{needs.iac.outputs.acrName}}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-            #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
