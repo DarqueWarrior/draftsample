@@ -91,8 +91,7 @@ jobs:
                 resource-group: ${{ env.RESOURCE_GROUP }}
             - name: Install Radius in K8s
               id: installcli
-              shell: pwsh
-              run: iwr -useb "https://get.radapp.dev/tools/rad/install.ps1" | iex
+              run: wget -q "https://get.radapp.dev/tools/rad/install.sh" -O - | /bin/bash
             - name: Install Radius in K8s
               id: install
               shell: pwsh
